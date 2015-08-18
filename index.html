@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="hearts">
+<head>
+    <title></title>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="cards.js" type="text/javascript"></script>
+    <script src="script.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    </style>
+    <script type="text/ng-template" id="templates/card.html">
+        <div class="card {{card.suit.name}}" ng-class="{selected:card.selected}" ng-click="card.selected = !card.selected" >
+            <div class="top">
+                <span ng-bind-html="htmlSuit"></span>
+            </div>
+            <span class="suit">{{card.rank}}</span>
+            <div class="bottom">
+                <span ng-bind-html="htmlSuit"></span>
+            </div>
+        </div>
+    </script>
+</head>
+<body ng-controller="MainController">
+
+    <button ng-click="reset()">Reset</button>
+    <button ng-click="deck.shuffle()">Shuffle</button>
+    <button ng-click="drawNewHand()">Draw new hand</button>
+    <button ng-click="discardAndDraw()">Discard & draw</button>
+    <br><br>
+    <label><input type="checkbox" name="autodeck" ng-model="autodeck">Shuffle new deck automatically when out of cards</label>
+    
+    <hr>
+
+    <div class="deck">
+        <div card="card" class="card-container" ng-repeat="card in deck.cards"></div>
+    </div>
+
+    <hr>
+
+    <div class="hand">
+        <div card="card" class="card-container" ng-repeat="card in hand.cards"></div>
+    </div>    
+
+    <hr>
+
+    <span class="hand-strength">Hand: {{hand.strength.string}} (rank: {{hand.strength.rank}})</span>
+</body>
+</html>
