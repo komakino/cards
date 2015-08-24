@@ -1,4 +1,3 @@
-
 function Card(value,suit){
 
     function _valToRank(val){
@@ -17,7 +16,6 @@ function Card(value,suit){
     this.rank = _valToRank(value);
     this.selected = false;
 }
-
 function Deck(shuffle){
 
     this.shuffled = false;
@@ -90,6 +88,13 @@ Deck.prototype.deal = function(hand){
     return hand;
 }
 
+function Game(){
+
+}
+
+Game.prototype.compareHands = function(hand1,hand2){
+ 
+}
 function Hand(){
     this.cards = [];
     this.strength = {};
@@ -132,3 +137,4 @@ Hand.prototype.evaluate = function(){
         string: hands[v] + (s == 0x403c?" (Ace low)":""),
     };
 }
+//# sourceMappingURL=cards.js.map

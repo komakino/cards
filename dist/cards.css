@@ -1,0 +1,66 @@
+body {
+  font-size: 24px;
+}
+hr {
+  margin: 1em;
+}
+button {
+  font-size: 1.2em;
+}
+.card-container {
+  display: inline-block;
+  /*margin-left: -.3em;*/
+}
+.deck {
+  font-size: .4em;
+}
+.card {
+  cursor: default;
+  background-color: white;
+  padding: .2em;
+  margin: .1em;
+  border: 0px solid black;
+  width: 2.25em;
+  height: 3.5em;
+  text-align: center;
+  border-radius: .2em;
+  box-shadow: .05em .05em .3em #000;
+}
+.card .top {
+  text-align: left;
+}
+.card .bottom {
+  text-align: left;
+}
+.card .bottom span {
+  transform: rotate(-180deg);
+}
+.card .top span,
+.card .bottom span {
+  line-height: .8em;
+  display: block;
+  overflow: hidden;
+}
+.card .suit {
+  font-size: 1.65em;
+}
+.card.selected {
+  opacity: .3;
+}
+.card.hearts,
+.card.diamonds {
+  color: red;
+}
+.card.spades,
+.card.clubs {
+  color: black;
+}
+.hand {
+  font-size: 2em;
+}
+.hand .card {
+  cursor: pointer;
+}
+.hand-strength {
+  font-size: 2em;
+}
