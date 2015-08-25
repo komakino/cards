@@ -2,6 +2,7 @@ function Deck(shuffle){
 
     this.shuffled = false;
     this.cards = [];
+    this.discards = [];
 
     var suits = {
             0: {
@@ -33,24 +34,32 @@ function Deck(shuffle){
 
     for(var i=0;i<4;i++){
         for(var j=2;j<=14;j++){
-            this.cards.push(new Card(j,suits[i]));
+            this.cards.push(new Card(this,j,suits[i]));
         }
     }
 
     shuffle && this.shuffle();
 }
 
+Deck.prototype = new BaseClass();
+Deck.prototype.constructor = Deck;
+
+Deck.e = {
+    wrongType: $lambda("NotADeck"),
+    empty: $lambda("DeckIsEmpty"),
+}
+
 Deck.prototype.shuffle = function(){
     for(var i=52*52;i>0;i--){
         this.cards.reverse();
-        this.cards.push(this.draw(true));
+        this.cards.push(this.drawCard(true));
     }
 
     this.shuffled = true;
 }
 
-Deck.prototype.draw = function(random){
-    if(!this.cards.length) throw 'DeckIsEmpty';
+Deck.prototype.drawCard = function(random){
+    if(!this.cards.length) throw Deck.e.empty();
     if(random){
         var i = Math.floor((Math.random() * this.cards.length-1) + 1);
         return this.cards.splice(i,1)[0];
@@ -59,13 +68,16 @@ Deck.prototype.draw = function(random){
     }
 }
 
-Deck.prototype.deal = function(hand){
-    !hand && (hand = new Hand());
-    while(hand.cards.length < 5){
-        hand.addCard(this.draw());
+Deck.prototype.discard = function(card){
+    this._assertType(card,Card);
+    card.reset();
+    this.discards.push(card);
+}
+
+Deck.prototype.dealCard = function(player){
+    this._assertType(player,Player);
+    if(player.canBeDealt()){
+        card = this.drawCard();
+        return player.deal(card);
     }
-
-    hand.evaluate();
-
-    return hand;
 }

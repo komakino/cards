@@ -5,7 +5,8 @@ app.directive('card', function() {
     transclude: true,
     restrict: 'A',
     scope: {
-        card: '='
+        card: '=',
+        player: '=',
     },
     templateUrl: 'templates/card.html',
     controller: function($scope,$sce){
@@ -13,34 +14,17 @@ app.directive('card', function() {
     }
   };
 });
-
+var game;
 app.controller('MainController', function ($scope) {
-    $scope.autodeck = false;
-    $scope.deck = new Deck(true);
-    $scope.hand = new Hand();
+    game = new Game();
+    $scope.game = game;
 
-    $scope.reset = function(){
-        delete $scope.deck;
-        $scope.hand = new Hand();
-        $scope.deck = new Deck();
-    }
+    game.addPlayer(new Player(game,'Robert Plant'));
+    game.addPlayer(new Player(game,'Jimmy Page'));
+    game.addPlayer(new Player(game,'John Bonham'));
+    game.addPlayer(new Player(game,'John Paul Jones'));
 
-    $scope.drawNewHand = function(){
-        if($scope.deck.cards.length < 5) {
-            if($scope.autodeck) $scope.deck = new Deck(true);
-            else return;
-        }
-        $scope.hand = $scope.deck.deal();
-    }
+    game.start();
 
-
-    $scope.discardAndDraw = function(){
-        for(var i=$scope.hand.cards.length-1;i>=0;i--){
-            $scope.hand.cards[i].selected && $scope.hand.discardCard($scope.hand.cards[i]);
-        }
-        $scope.deck.deal($scope.hand);
-    }
-
-    $scope.drawNewHand();
-
+    console.log(game);
 });

@@ -4,8 +4,16 @@ body {
 hr {
   margin: 1em;
 }
-button {
+#game-actions button {
   font-size: 1.2em;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .card-container {
   display: inline-block;
@@ -17,14 +25,20 @@ button {
 .card {
   cursor: default;
   background-color: white;
-  padding: .2em;
   margin: .1em;
   border: 0px solid black;
   width: 2.25em;
   height: 3.5em;
   text-align: center;
+  border: .2em solid white;
   border-radius: .2em;
   box-shadow: .05em .05em .3em #000;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .card .top {
   text-align: left;
@@ -44,9 +58,6 @@ button {
 .card .suit {
   font-size: 1.65em;
 }
-.card.selected {
-  opacity: .3;
-}
 .card.hearts,
 .card.diamonds {
   color: red;
@@ -54,6 +65,17 @@ button {
 .card.spades,
 .card.clubs {
   color: black;
+}
+.card.selected {
+  opacity: .3;
+}
+.card.hidden {
+  background-color: #093;
+}
+.card.hidden .top,
+.card.hidden .bottom,
+.card.hidden .suit {
+  visibility: hidden;
 }
 .hand {
   font-size: 2em;
@@ -63,4 +85,11 @@ button {
 }
 .hand-strength {
   font-size: 2em;
+}
+.player {
+  width: 50%;
+  float: left;
+  padding: 1em;
+  background: #eee;
+  box-sizing: border-box;
 }

@@ -1,5 +1,2 @@
 # cards
-Dont forget to run 
-```
-bower install
-```
+A playing cards engine

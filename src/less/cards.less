@@ -6,8 +6,19 @@ hr {
     margin: 1em;
 }
 
-button {
-    font-size: 1.2em;
+#game-actions {
+    button {
+        font-size: 1.2em;
+    }
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .card-container {
@@ -20,17 +31,19 @@ button {
 }
 
 .card {
-    
+
     cursor: default;
     background-color: white;
-    padding: .2em;
     margin: .1em;
     border: 0px solid black;
     width: 2.25em;
     height: 3.5em;
     text-align: center;
+    border: .2em solid white;
     border-radius: .2em;
     box-shadow: .05em .05em .3em #000;
+
+    .noselect;
 
     .top {
         text-align: left;
@@ -52,10 +65,6 @@ button {
         font-size: 1.65em;
     }
 
-    &.selected {
-        opacity: .3;
-    }
-
     &.hearts,
     &.diamonds {
         color: red;
@@ -64,6 +73,17 @@ button {
     &.spades,
     &.clubs {
         color: black;
+    }
+
+    &.selected {
+        opacity: .3;
+    }
+
+    &.hidden {
+        background-color: #093;
+        .top, .bottom, .suit {
+            visibility: hidden;
+        }
     }
 } 
 
@@ -78,4 +98,12 @@ button {
 
 .hand-strength {
     font-size: 2em;
+}
+
+.player {
+    width: 50%;
+    float: left;
+    padding: 1em;
+    background: #eee;
+    box-sizing: border-box;
 }

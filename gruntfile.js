@@ -35,7 +35,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
         sourceMap : true,
         sourceMapIncludeSources : true,
-        sourceMapIn : 'dist/cards.js.map'
+        sourceMapIn : '<%= concat.js.dest %>.map'
       },
       build: {
         src: '<%= concat.js.dest %>',
@@ -61,5 +61,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
 
   grunt.registerTask('default', ['connect','watch']);
+  grunt.registerTask('build', ['concat','uglify','less']);
 
 };
