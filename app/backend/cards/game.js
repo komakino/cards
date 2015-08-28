@@ -50,8 +50,8 @@ var Game = new Class({
         this.turn = this.getNextInTurn();
     },
     compareHands: function(hand1,hand2){
-        if(!(hand1 instanceof Hand)) throw Hand.e.wrongType();
-        if(!(hand2 instanceof Hand)) throw Hand.e.wrongType();
+        this._assertType(hand1,Hand);
+        this._assertType(hand2,Hand);
     },
     deal: function(){
         var dealing = true;
@@ -65,8 +65,14 @@ var Game = new Class({
     },
     dealPlayer: function(player){
         this._assertType(player,Player);
-        if(player.hand.cards.length < this.getRule('handLength')){
+        if(player.canBeDealt()){
             return this.deck.dealCard(player);
+        }    
+    },
+    dealPlayerFill: function(player){
+        this._assertType(player,Player);
+        while(player.canBeDealt()){
+            this.deck.dealCard(player);
         }    
     },
     evaluateHand: function(hand){

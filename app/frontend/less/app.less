@@ -1,0 +1,113 @@
+@import "../../../bower_components/bootstrap/less/bootstrap.less";
+
+@import "signin.less";
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+
+
+#game-actions {
+    button {
+        font-size: 1.2em;
+    }
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.card-container {
+    display: inline-block;
+    /*margin-left: -.3em;*/
+}
+
+.deck {
+    font-size: .4em;
+}
+
+.card {
+
+    cursor: default;
+    background-color: white;
+    margin: .1em;
+    border: 0px solid black;
+    width: 2.25em;
+    height: 3.5em;
+    text-align: center;
+    border: .2em solid white;
+    border-radius: .2em;
+    box-shadow: .05em .05em .3em #000;
+
+    .noselect;
+
+    .top {
+        text-align: left;
+    }
+    .bottom {
+        text-align: left;
+    }
+    .bottom span {
+        transform: rotate(-180deg);
+    }
+    .top span,
+    .bottom span {
+        line-height: .8em;
+        display: block;
+        overflow: hidden;
+    }
+
+    .suit {
+        font-size: 1.65em;
+    }
+
+    &.hearts,
+    &.diamonds {
+        color: red;
+    }
+
+    &.spades,
+    &.clubs {
+        color: black;
+    }
+
+    &.selected {
+        opacity: .3;
+    }
+
+    &.hidden {
+        background-color: #093;
+        .top, .bottom, .suit {
+            visibility: hidden;
+        }
+    }
+} 
+
+
+.hand {
+    font-size: 2em;
+}
+
+.hand .card {
+    cursor: pointer;
+}
+
+.hand-strength {
+    font-size: 2em;
+}
+
+.player {
+    width: 50%;
+    float: left;
+    padding: 1em;
+    background: #eee;
+    box-sizing: border-box;
+}

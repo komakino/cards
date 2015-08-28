@@ -1,30 +1,53 @@
-function Class(fn,properties,parent,descriptors){
+function Class($construct,$properties,$extends,$describe,$errors){
     function _merge(a,b){ for(v in b) b.hasOwnProperty(v) && (a[v] = b[v])}
     function _grab(obj,prop){
         var temp = obj[prop];
         delete obj[prop]
         return temp;
     }
-
-    if(typeof fn == 'object'){
-        properties = fn;
-        fn = _grab(properties,'$construct');
-        parent = _grab(properties,'$extends');
-        descriptors = _grab(properties,'$describe');
+    function _createError(name,defaultMessage){
+        return Class({
+            $extends: Error,
+            $construct: function(message){
+                Error.call(this);
+                this.name = name;
+                this.message = message || defaultMessage;
+            },
+        })
     }
 
-    if(parent){
-        function temp() { this.constructor = fn; }
-        temp.prototype = parent.prototype;
-        fn.prototype = new temp;
-        fn.$parent = parent.prototype;
+    if(typeof $construct == 'object'){
+        $properties = $construct;
+        $construct  = _grab($properties,'$construct');
+        $extends    = _grab($properties,'$extends');
+        $describe   = _grab($properties,'$describe');
+        $errors     = _grab($properties,'$errors');
     }
-    console.log(fn);
 
-    _merge(fn.prototype,properties);
-    descriptors && Object.defineProperties(fn.prototype,descriptors);
+    $construct  || ($construct = new Function());
+    $extends    || ($extends = Class);
 
-    return fn;
+    $construct.$lineage = $extends.$lineage ? $extends.$lineage.slice(0) : [];
+    $construct.$lineage.push($extends);
+
+    function temp() { this.constructor = $construct; }
+    temp.prototype = $extends.prototype;
+    $construct.prototype = new temp;
+
+    $construct.$childOf     = function(parent){ return this.$lineage && this.$lineage.indexOf(parent) > -1;}
+    $construct.$parentOf    = function(parent){ return parent.$lineage && parent.$lineage.indexOf(this) > -1;}
+    $construct.$parent      = $extends;
+
+    if($errors){
+        $construct.$errors = {};
+        for(name in $errors) 
+            $errors.hasOwnProperty(name) && ($construct.$errors[name] = (typeof $errors[name] == 'function') ? $errors[name] : _createError(name,$errors[name]))
+    }
+
+    _merge($construct.prototype,$properties);
+    $describe && Object.defineProperties($construct.prototype,$describe);
+
+    return $construct;
 }
 
 var BaseClass = new Class({
@@ -40,7 +63,7 @@ var BaseClass = new Class({
     _assertType: function(value,type){
         if(!(value instanceof type)){
             console.log("Not a %s:",type.name,value,arguments.callee.caller.prototype);
-            throw "NotA"+type.name;
+            throw new TypeError("Not a " + type.name + ': ' + String(value));
         }
     }
 });
@@ -51,16 +74,6 @@ function $isType(subject,types,inherit){
         if((inherit && subject instanceof types[i]) || (subject.constructor == types[i])) return true;
     };
     return false;
-}
-
-function $assertType(subject,types,inherit){
-    if(!(types instanceof Array)) types = [types];
-    if($isType(subject,types,inherit)) return;
-    var string = types.map(function(type){
-        return type.name;
-    }).join('_or_');
-
-    throw "NotOfType_" + string;
 }
 
 function $lambda(value){
